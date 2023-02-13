@@ -31,31 +31,37 @@ const Profile = () => {
     useEffect(() => {
         const findUser = async () => {
             if (!username) {
-                setUrlUserImage(null);
                 setUrlUser(null);
+                setUrlUserImage(null);
                 return;
             }
 
-            let imagePath = null;
+            let imageId = null;
             try {
                 const { data } = await HttpClient().get("/api/user/" + username);
-                imagePath = data.imagePath;
+                imageId = data.imageId;
                 setUrlUser(data);
             } catch (e) {
                 console.log(e);
                 setUrlUser(null);
+                setUrlUserImage(null);
                 return;
             }
 
+            if (!imageId)
+            {
+                setUrlUserImage(null);
+                return;
+            }
             try {
-                const user_pic_raw = await HttpClient().get("/api/user/image/" + imagePath, {responseType: 'blob'});
-                
-                // alt way: setUrlUserImage(URL.createObjectURL(user_pic_raw.data));
-                const reader = new FileReader();
-                reader.readAsDataURL(user_pic_raw.data);
-                reader.onloadend = function () {
-                    setUrlUserImage("data:image/png;base64," + reader.result.slice(reader.result.indexOf(",") + 1));
-                };
+                const { data } = await HttpClient().get("/api/user/image/" + imageId, {responseType: "arraybuffer"});
+                const base64Image = btoa(
+                    new Uint8Array(data).reduce(
+                      (data, byte) => data + String.fromCharCode(byte),
+                      ""
+                    )
+                );
+                setUrlUserImage("data:image/png;base64," + base64Image);
             } catch (e) {
                 console.log(e);
                 setUrlUserImage(null);

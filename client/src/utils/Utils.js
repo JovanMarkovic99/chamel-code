@@ -168,7 +168,7 @@ export const deleteDiscussionPost = async (elem, array, setArray) => {
 
 export const uploadPhoto = async (file) => {
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("userImage", file);
 
     const token = localStorage.getItem("token");
     const config = {

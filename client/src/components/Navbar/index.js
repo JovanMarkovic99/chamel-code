@@ -36,13 +36,14 @@ const Navbar = (props) => {
             }
 
             try {
-                const { data } = await HttpClient().get("/api/user/image/" + user.imagePath, {responseType: 'blob'});
-                    
-                const reader = new FileReader();
-                reader.readAsDataURL(data);
-                reader.onloadend = function () {
-                    setUserImage("data:image/png;base64," + reader.result.slice(reader.result.indexOf(",") + 1));
-                };
+                const { data } = await HttpClient().get("/api/user/image/" + user.imageId, {responseType: "arraybuffer"});
+                const base64Image = btoa(
+                    new Uint8Array(data).reduce(
+                      (data, byte) => data + String.fromCharCode(byte),
+                      ""
+                    )
+                );
+                setUserImage("data:image/png;base64," + base64Image);
             } catch (e) {
                 console.log(e);
             }

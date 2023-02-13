@@ -3,40 +3,48 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const fs = require("fs");
-const path = require("path");
-const multer = require("multer");
-const storage = multer.diskStorage({
-    destination: "./resources/img/"
-});
-const upload = multer({
-    storage: storage
-}).single("file");
-
 const protected = require("../middleware/Protected");
 const User = require("../models/User");
 
-router.get("/init", async (req, res) => {
-    const user = await User.findById(req.userId);
+const UserImage = require("../models/UserImage")
+const fs = require("fs");
+const sharp = require("sharp");
+const multer = require("multer");
+const upload = multer({
+    dest: "uploads/"
+});
 
+router.get("/init", async (req, res) => {
+    if (!req.userId)
+        return res.sendStatus(400);
+
+    const user = await User.findById(req.userId);
     if (!user)
         return res.sendStatus(404);
 
-    res.send({ _id: user._id, username: user.username, email: user.email, reputation: user.reputation, role: user.role, imagePath: user.imagePath });
+    res.send({ _id: user._id, username: user.username, email: user.email, reputation: user.reputation, role: user.role, imageId: user.imageId});
 });
 
 router.get("/:username", async (req, res) => {
+    if (req.params.username === "undefined" || !req.params.username)
+        return res.sendStatus(400);
+
     const user = await User.findOne({ username: req.params.username });
-
-    if (!user) {
+    if (!user)
         return res.sendStatus(404);
-    }
 
-    res.send({ username: user.username, reputation: user.reputation, role: user.role, imagePath: user.imagePath });
+    res.send({ username: user.username, reputation: user.reputation, role: user.role, imageId: user.imageId });
 });
 
-router.get("/image/:urlImage", async (req, res) => {
-    res.sendFile(path.join(__dirname, "../resources/img/", req.params.urlImage));
+router.get("/image/:imageId", async (req, res) => {
+    if (req.params.imageId === "undefined" || req.params.imageId === "null")
+        return res.sendStatus(400);
+
+    const userImage = await UserImage.findById(req.params.imageId);
+    if (!userImage)
+        return res.sendStatus(404);
+    
+    res.send(userImage.data);
 });
 
 router.post("/register", async (req, res) => {
@@ -109,37 +117,33 @@ router.post("/login", async (req, res) => {
     res.send({ user, token });
 });
 
-router.post("/upload", protected, upload, async (req, res) => {
-    if (!req.file)
-        return res.sendStatus(400);
-
-    if (req.file.size > 1000000) {
-        fs.unlink(req.file.path, err => { if (err) console.log(err); });
-        return res.sendStatus(400);
-    }
-
+router.post("/upload", protected, upload.single("userImage"), async (req, res) => {
+    const buffer = await sharp(req.file.path)
+                        .resize({ width: 250, height: 250 })
+                        .png()
+                        .toBuffer();
+    
     const user = await User.findById(req.userId);
+    if (user.imageId) {
+        const existingUserImage = await UserImage.findById(user.imageId);
+        if (!existingUserImage)
+            return res.sendStatus(500);
+            
+        existingUserImage.data = buffer;
+        await existingUserImage.save();
 
-    if (!user) {
-        fs.unlink(req.file.path, err => { if (err) console.log(err); });
-        return res.sendStatus(400);
+        fs.unlinkSync(req.file.path);
+        return res.sendStatus(200);
     }
 
-    if (req.file.mimetype === "image/png") {
-        if (user.imagePath.length) {
-            fs.unlink("./resources/img/" + user.imagePath, err => { if (err) console.log(err); });
-        }
-        user.imagePath = req.file.filename;
-        user.save();
-        
-        res.sendStatus(200);
-    } else {
-        res.status(400).send({
-            message: "The picture must be a png file"
-        });
-        
-        fs.unlink(req.file.path, err => { if (err) console.log(err); });
-    }
+    const newUserImage = UserImage({ data: buffer });
+    await newUserImage.save();
+
+    user.imageId = newUserImage._id;
+    await user.save();
+
+    fs.unlinkSync(req.file.path);
+    res.sendStatus(200);
 });
 
 router.post("/changePassword", protected, async (req, res) => {
