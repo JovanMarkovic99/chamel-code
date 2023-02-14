@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 require("dotenv").config();
 const auth = require("./middleware/Auth");
+const error_handler = require("./middleware/ErrorHandler");
 
 mongoose.connect(process.env.MONGODB_KEY, {
     useNewUrlParser: true,
@@ -16,6 +17,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(auth);
+app.use(error_handler);
 
 app.use(express.static(path.join(__dirname, "..", "client/build")));
 

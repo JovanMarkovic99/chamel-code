@@ -3,7 +3,10 @@ const Schema = mongoose.Schema;
 
 const PostSchema = new Schema({
     content: String,
-    discussionId: mongoose.ObjectId,
+    discussionId: {
+        type: mongoose.ObjectId,
+        ref: 'Discussion'
+    },
     username: String,
     deleted: {
         default: false,

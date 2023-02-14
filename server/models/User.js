@@ -12,7 +12,8 @@ const UserSchema = new Schema({
     },
     imageId: {
         default: null,
-        type: mongoose.ObjectId
+        type: mongoose.ObjectId,
+        ref: 'UserImage'
     },
     role: String
     }, { timestamps: true }

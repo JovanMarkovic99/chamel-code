@@ -8,7 +8,10 @@ const DiscussionLikesSchema = new Schema({
         min: -1,
         max: 1
     },
-    discussionId: mongoose.ObjectId,
+    discussionId: {
+        type: mongoose.ObjectId,
+        ref: 'Discussion'
+    }
 });
 
 const DiscussionLikes = mongoose.model("DiscussionLikes", DiscussionLikesSchema);

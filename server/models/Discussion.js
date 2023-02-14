@@ -4,7 +4,10 @@ const Schema = mongoose.Schema;
 const DiscussionSchema = new Schema({
     title: String,
     content: String,
-    categoryId: mongoose.ObjectId,
+    categoryId: { 
+        type: mongoose.ObjectId,
+        ref:  'Category'
+    },
     username: String,
     deleted: {
         default: false,

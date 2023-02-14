@@ -4,23 +4,31 @@ const router = express.Router();
 const Discussion = require("../models/Discussion");
 const Post = require("../models/Post");
 
-router.get("/discussions", async (req, res) => {
-    if (!req.query.username)
-        return res.sendStatus(401);
+router.get("/discussions", async (req, res, next) => {
+    try {
+        if (!req.query.username)
+            return res.sendStatus(400);
 
-    const discussions = await Discussion.find({ username: req.query.username, deleted: false });
-    res.send(discussions);
+        const discussions = await Discussion.find({ username: req.query.username, deleted: false });
+        res.send(discussions);
+    } catch (err) {
+        next(err);
+    }
 });
 
-router.get("/posts", async (req, res) => {
-    if (!req.query.username)
-        return res.sendStatus(401);
+router.get("/posts", async (req, res, next) => {
+    try {
+        if (!req.query.username)
+            return res.sendStatus(400);
 
-    const posts = await Post.find({ username: req.query.username, deleted: false });
-    res.send(posts);
+        const posts = await Post.find({ username: req.query.username, deleted: false });
+        res.send(posts);
+    } catch (err) {
+        next(err);
+    }
 });
 
-router.get("/querry", async(req, res) => {
+router.get("/querry", async(req, res, next) => {
     try {
         let querry = {};
         querry.deleted = false;
@@ -36,8 +44,8 @@ router.get("/querry", async(req, res) => {
 
         const discussions = await Discussion.find(querry);
         res.send(discussions);
-    } catch (e) {
-        res.send(e);
+    } catch (err) {
+        next(err);
     }
 });
 

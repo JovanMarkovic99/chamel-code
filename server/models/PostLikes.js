@@ -8,7 +8,10 @@ const PostLikesSchema = new Schema({
         min: -1,
         max: 1
     },
-    postId: mongoose.ObjectId,
+    postId: {
+        type: mongoose.ObjectId,
+        ref: 'Post'
+    }   
 });
 
 const PostLikes = mongoose.model("PostLikes", PostLikesSchema);
