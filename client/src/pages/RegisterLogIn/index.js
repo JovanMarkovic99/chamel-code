@@ -93,9 +93,9 @@ const RegisterLogIn = () => {
             };
 
             try {
-                const response  = await HttpClient().post("/api/user/login", data);
-                setUser(response.data.user);
-                localStorage.setItem("token", response.data.token);
+                const res  = await HttpClient().post("/api/user/login", data);
+                setUser(res.data.user);
+                localStorage.setItem("token", res.data.token);
                 history.push("/home");
             } catch (e) {
                 setErrors([e.response.data.message]);

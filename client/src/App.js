@@ -22,13 +22,16 @@ function App() {
 
   useEffect(() => {
     const init = async () => {
-      try {
-        const { data } = await HttpClient().get("/api/user/init");
-        setUser(data);
-      } catch (e) {
-        console.log(e);
-        localStorage.setItem("token", null);
-        setUser(null);
+      const token = localStorage.getItem("token")
+      if (token) {
+        try {
+          const { data } = await HttpClient().get("/api/user/init");
+          setUser(data);
+        } catch (e) {
+          console.log(e);
+          localStorage.setItem("token", null);
+          setUser(null);
+        }
       }
 
       const night_mode = localStorage.getItem("nightmode");

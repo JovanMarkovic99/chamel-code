@@ -9,8 +9,6 @@ const User = require("../models/User");
 
 router.post("/create", protected, async (req, res, next) => {
     try {
-        const user = await User.findById(req.userId);
-
         if (!req.body.title || !req.body.content)
             return res.status(400).send({ message: "A discussion must have a title and content" });
 
@@ -28,14 +26,14 @@ router.post("/create", protected, async (req, res, next) => {
             title: req.body.title,
             content: req.body.content,
             categoryId: req.body.categoryId,
-            username: user.username,
+            username: req.user.username,
             tags: req.body.tags,
         });
 
         await discussion.save();
         res.send(discussion);
 
-        await User.findOneAndUpdate({ _id: user._id }, { $inc: { reputation: 10 }});
+        await User.findOneAndUpdate({ _id: req.user._id }, { $inc: { reputation: 10 }});
     } catch (err) {
         next(err);
     }

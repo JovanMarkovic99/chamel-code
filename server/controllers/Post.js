@@ -12,8 +12,6 @@ router.post("/create", protected, async (req, res, next) => {
         if (!req.body.content)
             return res.status(400).send({ message: "A post must have content" });
 
-        const user = await User.findById(req.userId);
-
         if (!mongoose.Types.ObjectId.isValid(req.body.discussionId))
             return res.status(400).send({ message: "Bad discussion id" });
 
@@ -24,13 +22,13 @@ router.post("/create", protected, async (req, res, next) => {
         const post = Post({
             content: req.body.content,
             discussionId: req.body.discussionId,
-            username: user.username
+            username: req.user.username
         });
         await post.save();
         res.send(post);
 
         await Discussion.findOneAndUpdate({ _id: discussion._id }, { $inc: { numPosts: 1 }});
-        await User.findOneAndUpdate({ _id: user._id }, { $inc: { reputation: 5 }});
+        await User.findOneAndUpdate({ _id: req.user._id }, { $inc: { reputation: 5 }});
     } catch (err) {
         next(err);
     }

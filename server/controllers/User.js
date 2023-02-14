@@ -15,16 +15,9 @@ const upload = multer({
     dest: "uploads/"
 });
 
-router.get("/init", async (req, res, next) => {
+router.get("/init", protected, async (req, res, next) => {
     try {
-        if (!req.userId)
-            return res.sendStatus(400);
-
-        const user = await User.findById(req.userId);
-        if (!user)
-            return res.sendStatus(404);
-
-        res.send({ _id: user._id, username: user.username, email: user.email, reputation: user.reputation, role: user.role, imageId: user.imageId});
+        res.send(req.user);
     } catch (err) {
         next(err);
     }
@@ -114,8 +107,9 @@ router.post("/login", async (req, res, next) => {
             return res.status(400).send({ message: "Wrong password" });
 
         // TODO: Add key on production build
-        const token = jwt.sign({ userId: user._id }, "123");
-        res.send({ user, token });
+        const user_token = { _id: user._id, username: user.username, email: user.email, reputation: user.reputation, role: user.role, imageId: user.imageId }
+        const token = jwt.sign(user_token, "123");
+        res.send({ user: user_token, token });
     } catch (err) {
         next(err);
     }
