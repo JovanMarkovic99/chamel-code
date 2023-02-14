@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const path = require("path");
 require("dotenv").config();
+
 const auth = require("./middleware/Auth");
 const error_handler = require("./middleware/ErrorHandler");
 

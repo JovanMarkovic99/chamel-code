@@ -3,8 +3,10 @@ const mongoose = require("mongoose");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const protected = require("../middleware/Protected");
+const cache = require("../middleware/Cache");
 const User = require("../models/User");
 
 const UserImage = require("../models/UserImage")
@@ -23,7 +25,7 @@ router.get("/init", protected, async (req, res, next) => {
     }
 });
 
-router.get("/:username", async (req, res, next) => {
+router.get("/:username", cache(60 * 60), async (req, res, next) => {
     try {
         if (!req.params.username)
             return res.sendStatus(400);
@@ -38,7 +40,7 @@ router.get("/:username", async (req, res, next) => {
     }
 });
 
-router.get("/image/:imageId", async (req, res, next) => {
+router.get("/image/:imageId", cache(5 * 60), async (req, res, next) => {
     try {
         if (!mongoose.Types.ObjectId.isValid(req.params.imageId))
             return res.sendStatus(400);
@@ -106,9 +108,8 @@ router.post("/login", async (req, res, next) => {
         if (!passwordIsEqual)
             return res.status(400).send({ message: "Wrong password" });
 
-        // TODO: Add key on production build
         const user_token = { _id: user._id, username: user.username, email: user.email, reputation: user.reputation, role: user.role, imageId: user.imageId }
-        const token = jwt.sign(user_token, "123");
+        const token = jwt.sign(user_token, process.env.JWT_KEY);
         res.send({ user: user_token, token });
     } catch (err) {
         next(err);

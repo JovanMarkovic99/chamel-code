@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
 const protected = require("../middleware/Protected");
+const cache = require("../middleware/Cache")
 const PostLikes = require("../models/PostLikes");
 const Post = require("../models/Post");
 const User = require("../models/User");
@@ -31,7 +32,7 @@ router.post("/:id", protected, async (req, res, next) => {
     }
 });
 
-router.get("/", protected, async (req, res, next) => {
+router.get("/", protected, cache(2 * 60), async (req, res, next) => {
     try {
         const likes = await PostLikes.find({ username: req.user.username });
         res.send(likes);

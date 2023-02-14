@@ -16,7 +16,7 @@ module.exports = async (req, res, next) => {
     }
 
     try {
-        const user = jwt.verify(token, "123");
+        const user = jwt.verify(token, process.env.JWT_KEY);
         cache.set(token, { user }, 60 * 60 * 1000);
         req.user = user;
     } catch (e) {

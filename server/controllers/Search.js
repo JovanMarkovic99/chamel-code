@@ -1,10 +1,10 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const router = express.Router();
+const cache = require("../middleware/Cache");
 const Discussion = require("../models/Discussion");
 const Post = require("../models/Post");
 
-router.get("/discussions", async (req, res, next) => {
+router.get("/discussions", cache(15 * 60), async (req, res, next) => {
     try {
         if (!req.query.username)
             return res.sendStatus(400);
@@ -16,7 +16,7 @@ router.get("/discussions", async (req, res, next) => {
     }
 });
 
-router.get("/posts", async (req, res, next) => {
+router.get("/posts", cache(10 * 60), async (req, res, next) => {
     try {
         if (!req.query.username)
             return res.sendStatus(400);

@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const router = express.Router();
 const protected = require("../middleware/Protected");
 const moderatorProtected = require("../middleware/ModeratorProtected");
+const cache = require("../middleware/Cache")
 const Category = require("../models/Category");
 const Discussion = require("../models/Discussion");
 const User = require("../models/User");
@@ -56,7 +57,7 @@ router.post("/delete", moderatorProtected, async (req, res, next) => {
     }
 })
 
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", cache(3 * 60), async (req, res, next) => {
     try {
         if (!mongoose.Types.ObjectId.isValid(req.params.id))
             return res.sendStatus(400);
@@ -68,7 +69,7 @@ router.get("/:id", async (req, res, next) => {
     }
 });
 
-router.get("/findById/:id", async (req, res, next) => {
+router.get("/findById/:id", cache(30 * 60), async (req, res, next) => {
     try {
         if (!mongoose.Types.ObjectId.isValid(req.params.id))
             return res.sendStatus(400);
