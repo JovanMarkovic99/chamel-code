@@ -52,6 +52,7 @@ export const NavLink = styled(NavLinkR)`
     background-color: transparent;
     border-bottom: 3px solid transparent;
     transition: all 0.2s ease;
+    color: var(--text-white);
 
     &:hover {
         background-color: rgba(232, 232, 232, 0.08);
@@ -60,12 +61,10 @@ export const NavLink = styled(NavLinkR)`
         span {
             cursor: pointer;
             font-weight: 500;
-            color: #3ba55c;
             color: var(--text-tertiary);
         }
 
         svg > path {
-            fill: #3ba55c;
             fill: var(--text-tertiary);
         }
     }
@@ -324,6 +323,7 @@ export const NavButtonLink = styled(NavLinkR)`
     align-items: center;
     border-radius: 4px;
     transition: background 0.2s;
+    color: var(--text-white);
 
     &:hover {
         background: rgba(232, 232, 232, 0.08);
@@ -440,7 +440,7 @@ export const NavProfileMenu = styled.div`
     position: fixed;
     display: none;
     flex-direction: column;
-    width: 244px;
+    width: 252px;
     top: 49px;
     right: 15px;
     margin-top: -2px;

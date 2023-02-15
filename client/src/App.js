@@ -23,14 +23,13 @@ function App() {
   useEffect(() => {
     const init = async () => {
       const token = localStorage.getItem("token")
-      if (token) {
+      if (token !== "null") {
         try {
           const { data } = await HttpClient().get("/api/user/init");
           setUser(data);
         } catch (e) {
           console.log(e);
-          localStorage.setItem("token", null);
-          setUser(null);
+          logout();
         }
       }
 
