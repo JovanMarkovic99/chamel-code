@@ -3,6 +3,12 @@ const jwt = require("jsonwebtoken");
 const cache = new Map();
 
 module.exports = async (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        req.user = null;
+        return next();
+    }
+
     const [prefix, token] = req.headers.authorization.split(' ');
     if (!token) {
         req.user = null;
