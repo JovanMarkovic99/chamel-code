@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
+import { ReactComponent as ChevronDownSvg } from '../../images/chevron_down.svg';
+
 const CarouselComponent = ({ color, className, children }) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [childrenMatrix, setChildrenMatrix] = useState([])
@@ -45,9 +47,7 @@ const CarouselComponent = ({ color, className, children }) => {
 
     return (
         <div className={className} >
-            <svg onClick={incrementIndex} aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                <path fill="currentColor" d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"></path>
-            </svg>
+            <ChevronDownSvg onClick={incrementIndex}/>
             { childrenMatrix && childrenMatrix.map((children_pair, index) => (
                 <div key={index} className={checkStatus(index)}>
                     { children_pair && children_pair.map((child, child_index) => (
@@ -55,9 +55,7 @@ const CarouselComponent = ({ color, className, children }) => {
                     ))}
                 </div>
             ))}
-            <svg onClick={decrementIndex} aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                <path fill="currentColor" d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"></path>
-            </svg>
+            <ChevronDownSvg onClick={decrementIndex}/>
         </div>
     )
 };
@@ -121,7 +119,7 @@ const Carousel = styled(CarouselComponent)`
             }
         }
 
-        & > img {
+        & > svg {
             position: absolute;
             bottom: 15%;
             left: 50%;
@@ -140,7 +138,7 @@ const Carousel = styled(CarouselComponent)`
     }
 
     & > div.pre-active {
-        & > img {
+        & > svg {
             opacity: 0.5;
             transform: translateX(-100px) scale(0.5);
             transition: all 0.5s ease-in;
@@ -148,7 +146,7 @@ const Carousel = styled(CarouselComponent)`
     }
 
     & > div.post-active {
-        & > img {
+        & > svg {
             opacity: 0.5;
             transform: translateX(100px) scale(0.5);
             transition: all 0.5s ease-in;
@@ -161,7 +159,7 @@ const Carousel = styled(CarouselComponent)`
             transition: opacity 0.2s ease-in 0.2s;
         }
 
-        & > img {
+        & > svg {
             opacity: 1;
             z-index: 1;
             transition: opacity 0.5s ease-out, transform 0.5s ease-out, z-index 0s 0.25s;
@@ -188,7 +186,7 @@ const Carousel = styled(CarouselComponent)`
                 }
             }
 
-            & > img {
+            & > svg {
                 width: 250px;
                 height: 200px;
                 margin-left: -125px;
@@ -222,7 +220,7 @@ const Carousel = styled(CarouselComponent)`
                 }
             }
 
-            & > img {
+            & > svg {
                 width: 280px;
                 height: 224px;
                 margin-left: -140px;
