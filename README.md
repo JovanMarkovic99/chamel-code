@@ -1,7 +1,7 @@
 # chamel-code
 
 A Reddit/Stackoverflow-like forum website for questions and discussions about programming.\
-A live version of the app is available on https://chamel-code.herokuapp.com/
+A live version of the app is available on https://chamel-code.onrender.com
 
 ## Quick Overview
 
