@@ -3,9 +3,29 @@
 # Chamel Code
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Chamel Code is a scalable and performant forum website designed for programming-related questions and discussions, built with React.js, Node.js, and MongoDB. The project features an intuitive user interface, customizable user profiles, and robust security measures to protect user data. A live demo of the app is available at: https://chamel-code.onrender.com.
+Chamel Code is a scalable and performant forum website designed for programming-related questions and discussions, built with React.js, Node.js, and MongoDB. The project features an intuitive user interface, customizable user profiles, and robust security measures to protect user data.</br>
+</br>
+A live demo of the app is available at: https://chamel-code.onrender.com.
 
-## Quick Start
+## Getting Started
+
+### Prerequisites
+
+Before running this project, make sure you have the following software installed:
+
+* [Node.js](https://nodejs.org/en/) v14.0.0 or higher
+* [Yarn v1.0.0](https://yarnpkg.com/) or higher
+
+You can verify that Node.js and Yarn are installed by running the following commands in your terminal:
+
+```sh
+node --version
+yarn --version
+```
+
+If you don't have Node.js or Yarn installed, you can download and install them from the official websites linked above.
+
+### Installation
 
 Before launching the app, create a .env file in the `server` directory and fill it out with the necessary environment variables.</br>
 To run Chamel Code locally, follow these steps:
@@ -37,7 +57,7 @@ cd server && yarn start && cd ..
 
 The server should launch on port 5000. You can find the app at http://localhost:5000/.
 
-## Development
+### Development
 
 To run the app in development mode, first navigate to the `client` directory and run:
 
