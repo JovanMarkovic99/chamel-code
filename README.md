@@ -25,7 +25,7 @@ A live demo of the app is available at: https://chamel-code.onrender.com.
 Before running this project, make sure you have the following software installed:
 
 * [Node.js](https://nodejs.org/en/) v14.0.0 or higher
-* [Yarn v1.0.0](https://yarnpkg.com/) or higher
+* [Yarn](https://yarnpkg.com/) v1.0.0 or higher
 
 You can verify that Node.js and Yarn are installed by running the following commands in your terminal:
 
