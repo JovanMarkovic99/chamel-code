@@ -7,6 +7,17 @@ Chamel Code is a scalable and performant forum website designed for programming-
 </br>
 A live demo of the app is available at: https://chamel-code.onrender.com.
 
+## Features
+
+* **Posting and commenting**: Users can create new posts and comments on existing posts. Primitive markdown is supported for formatting.
+* **Voting/Reputation system**: Users can upvote or downvote posts and comments to express their opinions.
+* **Search functionality**: Users can search for posts by title or content and more.
+* **Customizable user profiles**: Users can upload profile pictures, update their usernames and email addresses, and add a short bio to their profile pages.
+* **Forum moderation**: Administrators can delete posts and ban users as needed to maintain a safe and respectful community.
+* **Responsive design**: The site is optimized for various screen sizes and devices, making it accessible to a wide range of users.
+* **User authentication**: Users can sign up, log in, and reset their passwords. Authentication is handled with JSON Web Tokens (JWT) for enhanced security.
+* **Caching**: The website uses local and Redis server caching to optimize load times and reduce server requests.
+
 ## Getting Started
 
 ### Prerequisites
