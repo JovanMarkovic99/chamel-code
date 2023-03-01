@@ -11,7 +11,7 @@ A live demo of the app is available at: https://chamel-code.onrender.com.
 
 * **Posting and commenting**: Users can create new posts and comments on existing posts. Primitive markdown is supported for formatting.
 * **Voting/Reputation system**: Users can upvote or downvote posts and comments to express their opinions.
-* **Search functionality**: Users can search for posts by title or content and more.
+* **Search functionality**: Users can search for posts by title, content, likes, and more.
 * **Customizable user profiles**: Users can upload profile pictures, update their usernames and email addresses, and add a short bio to their profile pages.
 * **Forum moderation**: Administrators can delete posts and ban users as needed to maintain a safe and respectful community.
 * **Responsive design**: The site is optimized for various screen sizes and devices, making it accessible to a wide range of users.
