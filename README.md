@@ -3,7 +3,7 @@
 # Chamel Code
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Chamel Code is a scalable and performant forum website designed for programming-related questions and discussions, built with React.js, Node.js, and MongoDB. The project features an intuitive user interface, customizable user profiles, and robust security measures to protect user data.</br>
+Chamel Code is a scalable and performant forum website designed for programming-related questions and discussions, built with React.js, Node.js, and MongoDB. Its design is inspired by popular platforms like Stack Overflow and Reddit, making it an intuitive and user-friendly interface for tech enthusiasts.</br>
 </br>
 A live demo of the app is available at: https://chamel-code.onrender.com.
 
